@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop on Applied Responsible AI Operations for Finance</title>
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+<meta name="description" content="A workshop on practical approaches for Responsible AI in Finance.">
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ---------- Reset ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+ul{list-style:none}
+
+/* ---------- Tokens ---------- */
+:root{
+  --paper:#F4F5F3;
+  --paper-2:#E9ECE6;
+  --ink:#101826;
+  --ink-2:#1B2740;
+  --ink-soft:#47586B;
+  --line:#DCE1DC;
+  --accent:#5FA88C;
+  --accent-2:#2E6650;
+  --on-dark:#E9EDF3;
+  --muted-dark:#8FA0B3;
+
+  --f-display:'Space Grotesk',system-ui,sans-serif;
+  --f-body:'Inter',system-ui,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+
+  --wrap:1140px;
+  --pad-x:clamp(1.25rem,5vw,2.5rem);
+  --sec-y:clamp(4.5rem,9vw,7.5rem);
+  --nav-h:64px;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--f-body);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ---------- Utility ---------- */
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--pad-x)}
+.section{padding-block:var(--sec-y)}
+section[id]{scroll-margin-top:calc(var(--nav-h) + 12px)}
+
+.tag{
+  font-family:var(--f-mono);
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--accent-2);
+  display:inline-flex;align-items:center;gap:.55rem;
+}
+.tag::before{content:"";width:22px;height:1px;background:var(--accent)}
+
+.sec-head{max-width:52ch;margin-bottom:clamp(2rem,4vw,3.25rem)}
+.sec-head h2{
+  font-family:var(--f-display);
+  font-weight:600;
+  font-size:clamp(1.85rem,3.6vw,2.75rem);
+  line-height:1.08;
+  letter-spacing:-.015em;
+  margin-top:.9rem;
+}
+.sec-head p{margin-top:1rem;color:var(--ink-soft);font-size:1.05rem}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--f-mono);font-size:.82rem;letter-spacing:.03em;
+  padding:.85rem 1.4rem;border-radius:2px;
+  transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease;
+}
+.btn-accent{background:var(--accent);color:var(--ink);font-weight:500}
+.btn-accent:hover{transform:translateY(-2px)}
+.btn-ghost{border:1px solid rgba(255,255,255,.28);color:var(--on-dark)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-line{border:1px solid var(--ink);color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--paper)}
+.btn .arw{transition:transform .18s ease}
+.btn:hover .arw{transform:translateX(3px)}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  height:var(--nav-h);
+  display:flex;align-items:center;
+  background:rgba(16,24,38,0);
+  transition:background .3s ease,box-shadow .3s ease,backdrop-filter .3s ease;
+}
+.nav.solid{
+  background:rgba(16,24,38,.92);
+  backdrop-filter:blur(10px);
+  box-shadow:0 1px 0 rgba(255,255,255,.06);
+}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+/*.brand{display:flex;flex-direction:column;line-height:1.15;color:var(--on-dark)}*/
+.brand {
+  display: flex;
+  flex-direction: row;   /* logo e testo affiancati */
+  align-items: center;
+  color:var(--on-dark);
+  gap: 8px;
+}
+.brand-text {
+  display: flex;
+  flex-direction: column; /* mantiene il comportamento originale del testo */
+  line-height: 1.15;
+}
+.brand-logo {
+  height: 46px;
+  width: auto;
+  flex-shrink: 0; /* evita che il logo si schiacci se lo spazio è poco */
+}
+.brand b{font-family:var(--f-mono);font-size:.80rem;letter-spacing:.16em;color:var(--accent);font-weight:700}
+.brand span{font-family:var(--f-display);font-weight:600;font-size:.98rem;letter-spacing:-.01em}
+.nav-links{display:flex;align-items:center;gap:1.6rem}
+.nav-links a{
+  font-family:var(--f-mono);font-size:.76rem;letter-spacing:.02em;
+  color:var(--muted-dark);position:relative;padding-block:.4rem;transition:color .18s ease;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--on-dark)}
+.nav-links a.active::after{
+  content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--accent);
+}
+.nav-toggle{display:none;color:var(--on-dark)}
+.nav-toggle svg{display:block}
+
+/* mobile panel */
+.mnav{
+  position:fixed;inset:var(--nav-h) 0 auto 0;z-index:55;
+  background:rgba(16,24,38,.98);backdrop-filter:blur(10px);
+  border-top:1px solid rgba(255,255,255,.08);
+  display:none;flex-direction:column;padding:.5rem var(--pad-x) 1.25rem;
+}
+.mnav.open{display:flex}
+.mnav a{
+  font-family:var(--f-mono);font-size:.9rem;color:var(--on-dark);
+  padding:.85rem 0;border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;background:var(--ink);color:var(--on-dark);
+  padding-top:calc(var(--nav-h) + clamp(3rem,7vw,5.5rem));
+  padding-bottom:clamp(3rem,7vw,5.5rem);
+  overflow:hidden;
+}
+.hero-svg{position:absolute;inset:0;width:100%;height:100%;opacity:.9}
+.hero-svg .leaf-grow{opacity:0;transform:scale(0);animation:leafGrow .7s ease-out forwards}
+.hero-svg .leaf-sway{animation-name:leafSway;animation-timing-function:ease-in-out;animation-iteration-count:infinite}
+@keyframes leafGrow{to{opacity:1;transform:scale(1)}}
+@keyframes leafSway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+@media (prefers-reduced-motion:reduce){
+  .hero-svg .leaf-grow{opacity:1;transform:scale(1);animation:none}
+  .hero-svg .leaf-sway{animation:none}
+}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(100deg,rgba(16,24,38,.88) 0%,rgba(16,24,38,.72) 32%,rgba(16,24,38,.28) 62%,rgba(16,24,38,0) 78%);
+}
+.hero .wrap{position:relative;z-index:2}
+.hero-eyebrow{
+  font-family:var(--f-mono);font-size:.9rem;letter-spacing:.16em;font-weight:700;
+  color:var(--accent);text-transform:uppercase;display:flex;align-items:center;gap:.6rem;
+}
+.hero-eyebrow::before{content:"";width:26px;height:1px;background:var(--accent)}
+.hero h1{
+  font-family:var(--f-display);font-weight:700;
+  font-size:clamp(2.4rem,6.2vw,4.6rem);line-height:1.02;letter-spacing:-.025em;
+  margin:1.1rem 0 .4rem;max-width:16ch;
+  text-shadow:0 1px 20px rgba(16,24,38,.9);
+}
+.hero .subtitle{
+  font-family:var(--f-display);font-weight:500;
+  font-size:clamp(1.05rem,2.4vw,1.6rem);color:var(--accent);letter-spacing:-.01em;
+}
+.hero .lede{margin-top:1.25rem;max-width:56ch;color:var(--muted-dark);font-size:1.05rem;text-shadow:0 1px 16px rgba(16,24,38,.9)}
+
+.facts{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1px;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.1);border-radius:3px;overflow:hidden;
+  margin:2.5rem 0 2rem;max-width:640px;
+}
+.fact{background:var(--ink);padding:1.15rem 1.25rem}
+.fact .k{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-dark)}
+.fact .v{font-family:var(--f-display);font-weight:600;font-size:1.15rem;margin-top:.35rem}
+.fact .v small{display:block;font-family:var(--f-body);font-weight:400;font-size:.82rem;color:var(--muted-dark);letter-spacing:0}
+
+.hero-cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.5rem}
+
+.contact-card{
+  margin-top:2.5rem;padding-top:1.5rem;font-weight:600;border-top:1px solid rgba(255,255,255,.1);
+  font-size:.92rem;color:var(--on-dark);
+}
+.contact-card b{color:var(--on-dark);font-weight:600;display:block;font-family:var(--f-display)}
+.contact-card a{color:var(--accent);font-weight:400}
+.contact-card a:hover{text-decoration:underline}
+
+/* ---------- CFP ---------- */
+.cfp-grid{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:clamp(2rem,5vw,4rem);align-items:start}
+.dates{position:relative;padding-left:1.5rem}
+.dates::before{content:"";position:absolute;left:4px;top:8px;bottom:8px;width:1px;background:var(--line)}
+.date-row{position:relative;padding:0 0 1.7rem}
+.date-row:last-child{padding-bottom:0}
+.date-row::before{
+  content:"";position:absolute;left:-1.5rem;top:5px;width:9px;height:9px;border-radius:50%;
+  background:var(--paper);border:2px solid var(--accent);
+}
+.date-row .lbl{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.date-row .day{font-family:var(--f-display);font-weight:600;font-size:1.15rem;margin-top:.15rem}
+.utc{font-family:var(--f-mono);font-size:.68rem;color:var(--accent-2);letter-spacing:.1em;margin-bottom:1.2rem;display:block}
+
+.guides{display:grid;gap:1.5rem}
+.guide{border-top:1px solid var(--line);padding-top:1.25rem}
+.guide h4{font-family:var(--f-display);font-weight:600;font-size:1.05rem;display:flex;align-items:baseline;gap:.6rem}
+.guide h4 i{font-family:var(--f-mono);font-style:normal;font-size:.75rem;color:var(--accent-2)}
+.guide p{margin-top:.5rem;color:var(--ink-soft);font-size:.98rem}
+.guide a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,.3);
+  transition: border-color .2s ease;
+  }
+  .guide a:hover {
+  border-bottom-color: var(--accent);
+  }
+.cfp-submit{margin-top:2rem}
+
+/* ---------- Papers ---------- */
+.papers{display:grid;gap:0}
+.paper{
+  display:grid;grid-template-columns:auto 1fr;gap:1.25rem;
+  padding:1.4rem 0;border-top:1px solid var(--line);transition:background .2s ease;
+}
+.papers .paper:first-child{border-top:none}
+.paper:hover{background:rgba(242,169,0,.05)}
+.paper .num{font-family:var(--f-mono);font-size:.85rem;color:var(--accent-2);padding-top:.15rem;min-width:2ch}
+.paper h3{font-family:var(--f-display);font-weight:600;font-size:1.12rem;line-height:1.3;letter-spacing:-.01em}
+.paper .authors{color:var(--ink-soft);font-size:.92rem;margin-top:.35rem}
+.best{
+  display:inline-block;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--accent);color:var(--ink);padding:.18rem .5rem;border-radius:2px;margin-left:.6rem;vertical-align:middle;font-weight:500;
+}
+
+/* ---------- Speakers ---------- */
+.speakers-sec{background:var(--ink);color:var(--on-dark)}
+.speakers-sec .tag{color:var(--accent)}
+.speakers-sec .sec-head h2{color:var(--on-dark)}
+.speakers-sec .sec-head p{color:var(--muted-dark)}
+.keynote-speaker {
+  max-width: 500px;
+  margin-bottom: 4rem;}
+.speaker-label {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  }
+  .panelists-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    }
+.speaker-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.speaker{background:var(--ink);padding:1.75rem 1.5rem;transition:background .2s ease}
+.speaker:hover{background:var(--ink-2)}
+.avatar{
+  width:128px;height:128px;border-radius:50%;
+  display:grid;place-items:center;margin-bottom:1.1rem;
+  font-family:var(--f-display);font-weight:600;font-size:2rem;color:var(--ink);
+  background:linear-gradient(140deg,var(--accent),#9FD6BC);
+}
+.speaker h3{font-family:var(--f-display);font-weight:600;font-size:1.08rem;letter-spacing:-.01em}
+.speaker p{color:var(--muted-dark);font-size:.86rem;margin-top:.35rem}
+
+/* ---------- Topics ---------- */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(1.5rem,3vw,2.5rem)}
+.topic h3{
+  font-family:var(--f-display);font-weight:600;font-size:1.15rem;letter-spacing:-.01em;
+  padding-bottom:.9rem;border-bottom:2px solid var(--accent);display:inline-block;margin-bottom:1.1rem;
+}
+.topic li{
+  position:relative;padding-left:1.4rem;margin-bottom:.85rem;color:var(--ink-soft);font-size:.95rem;line-height:1.5;
+}
+.topic li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;background:var(--accent);border-radius:1px}
+
+/* ---------- Schedule ---------- */
+.sched{position:relative;padding-left:clamp(4.5rem,12vw,7rem)}
+.sched-note{margin-top:1.75rem;font-family:var(--f-mono);font-size:.74rem;color:var(--accent-2);letter-spacing:.03em}
+
+.sched::before{content:"";position:absolute;left:clamp(3.6rem,10vw,5.8rem);top:6px;bottom:6px;width:1px;background:var(--line)}
+.slot{position:relative;padding-bottom:2rem}
+.slot:last-child{padding-bottom:0}
+.slot .time{
+  position:absolute;left:calc(-1 * clamp(4.5rem,12vw,7rem));top:1px;
+  width:clamp(3.2rem,9vw,5rem);text-align:right;
+  font-family:var(--f-mono);font-size:.72rem;color:var(--accent-2);letter-spacing:0;line-height:1.4;
+}
+.slot::before{
+  content:"";position:absolute;left:calc(clamp(3.6rem,10vw,5.8rem) - clamp(4.5rem,12vw,7rem) - 4px);top:4px;
+  width:9px;height:9px;border-radius:50%;background:var(--paper);border:2px solid var(--accent);
+}
+.slot h3{font-family:var(--f-display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em}
+.slot .who{color:var(--ink-soft);font-size:.9rem;margin-top:.25rem}
+.slot.break h3{color:var(--ink-soft);font-weight:500}
+.slot.break::before{background:var(--line);border-color:var(--line)}
+
+/* ---------- Organizers ---------- */
+.org-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.org{
+  border:1px solid var(--line);border-radius:3px;padding:2rem 1.5rem;
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.1rem;
+  transition:border-color .2s ease,transform .2s ease;background:#fff;
+}
+.org:hover{border-color:var(--accent);transform:translateY(-2px)}
+.org .mono-av{
+  width:128px;height:128px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:var(--ink);color:var(--accent);font-family:var(--f-display);font-weight:600;font-size:2rem;
+}
+.org .mono-av img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.org b{font-family:var(--f-display);font-weight:600;font-size:1.12rem;display:block;letter-spacing:-.01em}
+.org span{font-size:.88rem;color:var(--ink-soft)}
+
+/* ---------- Sponsors ---------- */
+
+.sponsors-sec{
+background:var(--paper-2);
+}
+.sponsor-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:1px;
+background:var(--line);
+border:1px solid var(--line);
+border-radius:3px;
+overflow:hidden;
+}
+.sponsor{
+background:var(--paper);
+padding:1.8rem;
+min-height:140px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+text-decoration:none;
+transition:all .25s ease;
+}
+.sponsor:hover{
+background:#fff;
+transform:translateY(-2px);
+}
+
+.sponsor-name{
+font-size:1.2rem;
+font-weight:700;
+color:var(--ink);
+margin-bottom:.6rem;
+}
+.sponsor-desc{
+font-size:.92rem;
+line-height:1.5;
+color:var(--ink-soft);
+max-width:280px;
+}
+
+
+/* 
+.sponsor-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;
+}
+.sponsor{
+  background:var(--paper);padding:2rem 1.5rem;display:grid;place-items:center;min-height:110px;
+  transition:background .2s ease;
+}
+.sponsor:hover{background:#fff}
+.sponsor img{
+  max-width:100%;max-height:44px;filter:grayscale(1);opacity:.65;
+  transition:filter .2s ease,opacity .2s ease;
+}
+.sponsor:hover img{filter:grayscale(0);opacity:1}
+.sponsor {
+  display: flex;
+  justify-content: center; /* centra orizzontalmente */
+ /* align-items: center; /* centra verticalmente */
+ /* text-align: center; /* centra il testo su più righe */
+ /* font-size: 1.2rem;
+  font-weight: 700; /* testo più spesso */
+ /* padding: 1rem;
+  color: var(--ink-soft)
+  }
+*/
+/* ---------- About ---------- */
+.about-sec{background:var(--paper-2)}
+.about-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(2rem,5vw,4rem);align-items:start}
+.about-body p{margin-bottom:1.1rem;color:var(--ink-soft);font-size:1.02rem}
+.about-body p:first-child{color:var(--ink);font-size:1.12rem}
+
+/* ---------- Committee ---------- */
+.pc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.35rem 1.75rem}
+.pc{padding:.7rem 0;border-bottom:1px solid var(--line)}
+.pc b{font-family:var(--f-display);font-weight:600;font-size:.92rem;display:block;letter-spacing:-.005em}
+.pc span{font-size:.78rem;color:var(--ink-soft)}
+.pc-note{margin-top:1.75rem;font-family:var(--f-mono);font-size:.74rem;color:var(--accent-2);letter-spacing:.03em}
+
+/* ---------- Footer ---------- */
+.foot{background:var(--ink);color:var(--muted-dark);padding-block:2.75rem;font-size:.85rem}
+.foot .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;align-items:center}
+.foot a{color:var(--accent)}
+.foot a:hover{text-decoration:underline}
+.foot .mark{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;color:var(--accent)}
+
+/* ---------- Reveal ---------- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- Responsive ---------- */
+@media (max-width:820px){
+  .nav-links{display:none}
+  .nav-toggle{display:block}
+  .cfp-grid{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){
+  .facts{grid-template-columns:1fr}
+  .paper{grid-template-columns:1fr;gap:.4rem}
+  .paper .num{display:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  *{animation:none!important}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <img src="images/logo.png" alt="Logo" class="brand-logo">
+      <div class="brand-text">
+        <b>RAIOps4Fin'26 @ ICAIF'26</b>
+      </div>
+      
+    </a>
+    <div class="nav-links" id="navlinks">
+      <a href="#about">About</a>
+      <a href="#topics">Topics</a>
+      <a href="#cfp">Call for Papers</a>
+      <a href="#speakers">Speakers</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#organizers">Organizers</a>
+      <a href="#papers">Papers</a>
+      <a href="#committee">Committee</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</nav>
+<div class="mnav" id="mnav">
+  <a href="#about">About</a>
+  <a href="#topics">Topics</a>
+  <a href="#speakers">Speakers</a>
+  <a href="#schedule">Schedule</a>
+  <a href="#organizers">Organizers</a>
+  <a href="#papers">Papers</a>
+  <a href="#committee">Committee</a>
+  <a href="#cfp">Call for Papers</a>
+</div>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <!-- Firma visiva: un ramo che cresce con fogline che sbocciano, e foglie che ondeggiano
+       nello sfondo — sustainability, crescita responsabile. -->
+  <svg class="hero-svg" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+
+
+    <!-- ramo principale: si disegna alla lettura della pagina -->
+    <path id="stem" fill="none" stroke="#2E6650" stroke-width="2" stroke-linecap="round"
+      d="M700,368 C668,300 752,268 728,202 C710,140 792,108 768,42"/>
+
+    <!-- foglie che sbocciano lungo il ramo + foglie ambientali che ondeggiano -->
+    <g id="foliage"></g>
+  </svg>
+
+  <div class="wrap">
+    <div class="hero-eyebrow">Held in conjunction with ICAIF ’26 · Milano</div>
+    <h1>Workshop on Applied Responsible AI Operations for Finance</h1>
+    <div class="subtitle">Practical approaches of Responsible AI in Finance</div>
+    <p class="lede">A half-day workshop dedicated to advancing the practical operationalization of Responsible AI in financial systems - bridging research progress and real-world deployment.</p>
+
+    <div class="facts">
+      <div class="fact"><div class="k">Date</div><div class="v">14 - 15 Nov<small>2026</small></div></div>
+      <div class="fact"><div class="k">Time</div><div class="v">TBD<small>Local time</small></div></div>
+      <!-- <div class="fact"><div class="k">Capacity</div><div class="v">80<small>seats · in person</small></div></div> -->
+    </div>
+
+    <div class="hero-cta">
+      <a class="btn btn-accent" href="https://icaif2026.org/" target="_blank" rel="noopener noreferrer">Main Conference</a>
+      <a class="btn btn-accent" href="https://easychair.org/cfp/RAIOps4Fin2026" target="_blank" rel="noopener noreferrer">Call for Papers<span class="arw">→</span></a>
+      <a class="btn btn-ghost" href="#about">Learn more</a>
+    </div>
+
+    <div class="contact-card">
+      Workshop contact
+      <br>
+      <a href="mailto:raiops4fin@gmail.com">raiops4fin@gmail.com</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ABOUT ================= -->
+<section class="section about-sec" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="sec-head" style="margin-bottom:0">
+        <span class="tag">About</span>
+        <h2>Why this workshop</h2>
+      </div>
+      <div class="about-body">
+        <p>Responsible AI in finance must move from principles to practice.</p>
+        <p>The challenge is no longer just to innovate but to innovate responsibly. RAIOps4Fin explores how Responsible AI can move beyond principles and become part of the everyday deployment of financial AI systems. The workshop brings together researchers, practitioners, and regulators to turn fairness, transparency, robustness, privacy, and governance into actionable solutions.</p>
+        <p>By connecting cutting-edge research with deployment needs, RAIOps4Fin aims to foster practical knowledge exchange and shape trustworthy, auditable, and production-ready AI for the financial sector.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TOPICS ================= -->
+<section class="section" id="topics">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Topics of Interest</span>
+      <h2>What we are looking for</h2>
+      <p>RAIOps4Fin explores how Responsible AI can be effectively designed, governed, and deployed in financial systems.  
+        Case studies, frameworks, and experience reports addressing the practical deployment and operationalization of Responsible AI in financial systems are welcomed. </p>
+    </div>
+    <div class="topic-grid">
+      <div class="topic">
+        <h3>Topics of interest include, but are not limited to:</h3>
+        <ul>
+          <li><strong>RAI Operationalization</strong> - integrating fairness, explainability, privacy, and accountability in financial AI.</li>
+          <li><strong>Lifecycle Monitoring</strong> - continuous AI monitoring, evaluation, documentation, governance, and trade-off management.</li>
+          <li><strong>Model Risk &amp; Compliance</strong> - validation, auditability, oversight, risk management, and regulatory compliance.</li>
+          <li><strong>Emerging AI Paradigms</strong> - governance and deployment of generative AI, foundation models, and agentic systems.</li>
+          <li><strong>Sustainable AI</strong> - energy-efficient, environmentally responsible, and resource-aware AI for finance.</li>
+        </ul>
+      </div>
+     
+  </div>
+</section>
+
+<!-- ================= CALL FOR PAPERS ================= -->
+<section class="section" id="cfp">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Call for Papers</span>
+      <h2>Submit your work</h2>
+      <p>We welcome papers and encourage submissions that demonstrate practical relevance, empirical validation, or deployment experience.</p>
+    </div>
+
+    <div class="cfp-grid">
+      <div>
+        <span class="utc">Important dates — all deadlines 23:59 UTC</span>
+        <div class="dates">
+          <div class="date-row"><div class="lbl">Submission deadline</div><div class="day">October 2, 2026</div></div>
+          <div class="date-row"><div class="lbl">Author notification</div><div class="day">October 14, 2026</div></div>
+          <div class="date-row"><div class="lbl">Camera-ready</div><div class="day">October 31, 2026</div></div>
+          <div class="date-row"><div class="lbl">Workshop day</div><div class="day">November 14-15, 2026</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="guides">
+          <div class="guide">
+            <h4><i>01</i> Format &amp; guidelines</h4>
+            <p>Submissions are limited to 6 pages excluding references and appendices. Formatting
+              <a href="https://icaif2026.org/call-for-papers.html" target="_blank" rel="noopener noreferrer">
+                guidelines
+              </a>
+              of the host ICAIF conference should be used.
+            </p>
+          </div>
+          <div class="guide">
+            <h4><i>02</i> Review process</h4>
+            <p>Reviewing is double-blind. There is no rebuttal period. At least one author of each accepted paper must register and attend to present the work.</p>
+          </div>
+          <div class="guide">
+            <h4><i>03</i> Presentation</h4>
+            <p>All accepted papers are invited to an oral slot. </p>
+          </div>
+          <div class="guide">
+            <h4><i>03</i> Proceedings</h4>
+            <p>
+              Accepted papers of at least 5 pages may be considered for inclusion in the CEUR Workshop Proceedings, subject to the authors’ consent. 
+              Further details regarding the publication process will be provided after the review process.
+            </p>
+          </div>
+        </div>
+        <div class="cfp-submit">
+          <a class="btn btn-line" href="https://easychair.org/cfp/RAIOps4Fin2026" target="_blank" rel="noopener noreferrer">Submit via EasyChair <span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPEAKERS ================= -->
+<section class="section speakers-sec" id="speakers">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Invited Speakers</span>
+      <h2>Voices from academia and industry</h2>
+    </div>
+
+    <!-- KEYNOTE SPEAKER -->
+    <div class="keynote-speaker" 
+      onclick="window.open('https://www.linkedin.com/in/enricopanai/','_blank')"
+      style="cursor:pointer;">
+      <span class="speaker-label">Keynote Speaker</span>
+      <div class="speaker featured">
+        <div class="avatar" data-initials>EP</div>
+          <div class="speaker-content">
+            <h3>Enrico Panai</h3>
+            <p class="speaker-role">
+              Professor at Catholic University of the Sacred Heart, Italy.
+            </p>
+            <p>
+              Artificial Intelligence ethicist and president of the Association of AI Ethicists. 
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- PANELISTS -->
+    <div class="panelists-section">
+      <h3 class="panelists-title">Panelists</h3>
+        <div class="speaker-grid">
+          <div class="speaker" 
+            onclick="window.open('https://www.linkedin.com/in/andrea-claudio-cosentini-a479232/','_blank')"
+            style="cursor:pointer;">
+            <div class="avatar" data-initials>AC</div>
+            <h3>Andrea Claudio Cosentini</h3>
+            <p>Head of Data Science &amp; Responsible AI, Intesa Sanpaolo, Italy.</p>
+          </div>
+          <div class="speaker"
+            onclick="window.open('https://www.linkedin.com/in/nicasio-muscia-645885/','_blank')"
+            style="cursor:pointer;">
+            <div class="avatar" data-initials>NM</div>
+            <h3>Nicasio Muscia</h3>
+            <p>Managing Director, Responsible AI Lead for Italy &amp; Greece, Accenture, Italy.</p>
+          </div>
+          <div class="speaker"
+            onclick="window.open('https://www.linkedin.com/in/marco-siciliano-f/','_blank')"
+            style="cursor:pointer;">
+            <div class="avatar" data-initials>MS</div>
+            <h3>Marco Siciliano</h3>
+            <p>Country Chief Data Officer, Generali, Italy.</p>
+          </div>
+          <div class="speaker"
+            onclick="window.open('https://www.linkedin.com/in/laetitiaeriksson/','_blank')"
+            style="cursor:pointer;">
+            <div class="avatar" data-initials>LC</div>
+            <h3>Laetitia Cailleteau</h3>
+            <p>Managing Director, EMEA Lead for Responsible AI, Accenture, Italy.</p>
+          </div>
+          
+          <div class="speaker"
+            onclick="window.open('https://www.linkedin.com/in/mercorio/','_blank')"
+            style="cursor:pointer;">
+            <div class="avatar" data-initials>FM</div>
+            <h3>Fabio Mercorio</h3>
+            <p>Full Professor of Data Science and AI, University of Milano – Bicocca, Italy.</p>
+          </div>
+          
+
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SCHEDULE ================= -->
+<section class="section" id="schedule" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Schedule</span>
+      <h2>Half-day program</h2>
+      <p class="sched-note">! The schedule times are not confirmed yet.</p>
+    </div>
+    <div class="sched">
+      
+      <div class="slot"><div class="time">09:00</div><h3>Welcome &amp; Opening Remarks</h3></div>
+      <div class="slot"><div class="time">09:15</div><h3>Keynote Talk</h3><div class="who">Enrico Panai</div></div>
+      <div class="slot"><div class="time">10:00</div><h3>Paper Session #1</h3><div class="who">TBD</div></div>
+      <div class="slot break"><div class="time">11:00</div><h3>Coffee Break</h3></div>
+      <div class="slot"><div class="time">11:15</div><h3>Paper Session #2</h3><div class="who">TBD</div></div>
+      <div class="slot"><div class="time">11:55</div><h3>Panel Discussion</h3><div class="who">Panelists</div></div>
+      <div class="slot"><div class="time">12:55</div><h3>Closing Remarks</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ORGANIZERS ================= -->
+<section class="section" id="organizers">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Organizers</span>
+      <h2>The team behind the workshop</h2>
+    </div>
+    <div class="org-grid">
+      
+      <div class="org" 
+        onclick="window.open('https://www.linkedin.com/in/francesca-del-bonifro-805577177/','_blank')"
+        style="cursor:pointer;">
+        <div class="mono-av">
+          <img src="images/f_bonifro.jpeg" alt="Francesca Del Bonifro">
+        </div>
+        <div>
+          <b>Francesca Del Bonifro</b>
+          <span>Intesa Sanpaolo, Italy</span>
+        </div>
+      </div>
+
+      <div class="org" 
+        onclick="window.open('https://www.linkedin.com/in/eliana-pastor/','_blank')"
+        style="cursor:pointer;">
+        <div class="mono-av">
+          <img src="images/e_pastor.jpeg" alt="Eliana Pastor">
+        </div>
+        <div>
+          <b>Eliana Pastor</b>
+          <span>Polytechnic University of Turin, Italy</span>
+        </div>
+      </div>
+
+      <div class="org" 
+        onclick="window.open('https://www.linkedin.com/in/vita-catapano-429a94147/','_blank')"
+        style="cursor:pointer;">
+        <div class="mono-av">
+          VC
+         <!--  <img src="images/v_catapano.jpeg" alt="Vita Catapano"> -->
+        </div>
+        <div>
+          <b>Vita Catapano</b>
+          <span>Accenture, Italy</span>
+        </div>
+      </div>
+
+      <div class="org" 
+        onclick="window.open('https://www.linkedin.com/in/francesca-naretto-710bb31a2/','_blank')"
+        style="cursor:pointer;">
+        <div class="mono-av">
+          <img src="images/f_naretto.jpeg" alt="Francesca Naretto">
+        </div>
+        <div>
+          <b>Francesca Naretto</b>
+          <span>University of Pisa, Italy</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= ACCEPTED PAPERS ================= -->
+<section class="section" id="papers" style="background:var(--paper-2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Accepted Papers</span>
+      <h2>Program of accepted work</h2>
+    </div>
+    
+    <div class="papers">
+      <p>TBD</p>
+      <!--
+      <div class="paper"><div class="num">01</div><div><h3>A Practical Benchmark for Financial Time-Series Forecasting<span class="best">Best Paper</span></h3><div class="authors">First Author, Second Author, Third Author</div></div></div>
+      <div class="paper"><div class="num">02</div><div><h3>Reasoning over Time-Series for Financial Analysis<span class="best">Best Paper</span></h3><div class="authors">First Author, Second Author, Third Author</div></div></div>
+      <div class="paper"><div class="num">03</div><div><h3>Tail-Aware, Regime-Expert Diffusion for CVaR-Constrained Portfolios</h3><div class="authors">First Author, Second Author</div></div></div>
+      <div class="paper"><div class="num">04</div><div><h3>Enhancing Portfolio Decisions with Language-Model Forecasts</h3><div class="authors">First Author, Second Author</div></div></div>
+      <div class="paper"><div class="num">05</div><div><h3>Robust Pricing of To-Be-Announced Securities</h3><div class="authors">First Author, Second Author, Third Author</div></div></div>
+      <div class="paper"><div class="num">06</div><div><h3>Neural Informers for Algorithmic Strategies on High-Frequency Data</h3><div class="authors">First Author</div></div></div>
+      <div class="paper"><div class="num">07</div><div><h3>Explainable Factor Generation for Commodity Price Forecasting</h3><div class="authors">First Author, Second Author, Third Author</div></div></div>
+      <div class="paper"><div class="num">08</div><div><h3>Towards Causal Market Simulators</h3><div class="authors">First Author, Second Author</div></div></div>
+    </div>
+  -->
+  </div>
+</section>
+
+<!-- ================= COMMITTEE ================= -->
+<section class="section" id="committee">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Program Committee</span>
+      <h2>Reviewers</h2>
+    </div>
+    <div class="pc-grid">
+      <div class="pc"><b>Daniele Regoli</b><span>Intesa Sanpaolo (Italy)</span></div>
+      <div class="pc"><b>Alessandro Castelnovo</b><span>Intesa Sanpaolo (Italy)</span></div>
+      <div class="pc"><b>Andrea Ermellino</b><span>Intesa Sanpaolo (Italy)</span></div>
+      <div class="pc"><b>Annalisa Deiana</b><span>Intesa Sanpaolo (Italy)</span></div>
+      <div class="pc"><b>Pietro Renna</b><span>Intesa Sanpaolo (Italy)</span></div>
+      <div class="pc"><b>Marco Aspromonte</b><span>Intesa Sanpaolo (Italy)</span></div>
+      <div class="pc"><b>Alessio Tartaro</b><span>Accenture (Italy)</span></div>
+      <div class="pc"><b>Flavio Giobergia</b><span>Polytechnic University of Turin (Italy)</span></div>
+      <div class="pc"><b>Eleonora Poeta</b><span>Polytechnic University of Turin (Italy)</span></div>
+      <div class="pc"><b>Stefano Cirillo</b><span>University of Salerno (Italy)</span></div>
+      <div class="pc"><b>Francesca Bugiotti</b><span>CentraleSupélec - LISN (France)</span></div>
+      <div class="pc"><b> Mathurin Aime Mekam Pouatcha</b><span>University of Pisa (Italy)</span></div>
+      <div class="pc"><b> Lorenzo Mannocci</b><span>University of Pisa (Italy)</span></div>
+    </div>
+    <p class="pc-note">// The program committee is subject to updates as more members are confirmed.</p>
+  </div>
+</section>
+
+
+
+<!-- ================= ORGANIZATIONS ================= -->
+<!-- Non presente nel menu di navigazione. -->
+<section class="section sponsors-sec" id="sponsors">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Organizations</span>
+      <h2>Supported by</h2>
+    </div>
+    <div class="sponsor-grid">
+
+      <a href="https://github.com/rcrupiISP/ISParity/" target="_blank"  rel="noopener noreferrer" class="sponsor">
+        <div class="sponsor-name">Responsible AI Office @Intesa Sanpaolo</div>
+        <div class="sponsor-desc">
+          Turn AI ethics into measurable, evidence-based practices for fair, transparent, and sustainable AI across Intesa Sanpaolo.
+        </div>
+      </a>
+
+      <a href="https://kdd.isti.cnr.it/" target="_blank" rel="noopener noreferrer" class="sponsor">
+        <div class="sponsor-name">KDD Lab @University of Pisa &amp; CNR</div>
+        <div class="sponsor-desc">
+          Development of theory, techniques and systems for extracting and delivering useful knowledge out of large masses of data.
+        </div>
+      </a>
+
+      <a target="_blank" rel="noopener noreferrer" class="sponsor"> 
+        <div class="sponsor-name">Responsible AI @Accenture</div>
+        <div class="sponsor-desc">
+          
+        </div>
+      </a>
+
+      <a href="https://minds.polito.it/" target="_blank" rel="noopener noreferrer" class="sponsor"> 
+        <div class="sponsor-name">MINDS group @ Polytechnic University of Turin</div>
+        <div class="sponsor-desc">
+          Design, develop, and critically assess AI methods across NLP, cybersecurity, industrial automation, and the governance of AI itself.
+        </div>
+      </a> 
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="foot">
+  <div class="wrap">
+    <span class="mark">RAIOps4Fin ’26</span>
+    <span>© 2026 Workshop on Applied Responsible AI Operations for Finance. All rights reserved.</span>
+    <span>Contact: <a href="mailto:raiops4fin@gmail.com">raiops4fin@gmail.com</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Nav background on scroll ---- */
+  var nav = document.getElementById('nav');
+  function onScroll(){ nav.classList.toggle('solid', window.scrollY > 24); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* ---- Mobile menu ---- */
+  var toggle = document.getElementById('navToggle');
+  var mnav = document.getElementById('mnav');
+  toggle.addEventListener('click', function(){
+    var open = mnav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  mnav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ mnav.classList.remove('open'); toggle.setAttribute('aria-expanded', false); });
+  });
+
+  /* ---- Speaker avatars: initials fallback already in HTML text ---- */
+
+  /* ---- Reveal on scroll ---- */
+  if(!reduce && 'IntersectionObserver' in window){
+    document.querySelectorAll('.section .wrap > *').forEach(function(el){ el.classList.add('reveal'); });
+    var ro = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:0.05});
+    document.querySelectorAll('.reveal').forEach(function(el){ ro.observe(el); });
+  }
+
+  /* ---- Active nav link ---- */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#navlinks a'));
+  var map = {};
+  links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  if('IntersectionObserver' in window){
+    var so = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(l){ l.classList.remove('active'); });
+          var m = map[e.target.id]; if(m) m.classList.add('active');
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+    document.querySelectorAll('section[id]').forEach(function(s){ so.observe(s); });
+  }
+
+  /* ---- Hero: growing branch + budding/ambient leaves (sustainability) ---- */
+  (function buildFoliage(){
+    var svgns = 'http://www.w3.org/2000/svg';
+    var g = document.getElementById('foliage');
+    var stem = document.getElementById('stem');
+    if(!g || !stem) return;
+
+    function leafPaths(bx, by, angDeg, s){
+      var rad = angDeg * Math.PI / 180;
+      function pt(x, y){
+        var rx = x * Math.cos(rad) - y * Math.sin(rad);
+        var ry = x * Math.sin(rad) + y * Math.cos(rad);
+        return (bx + rx * s).toFixed(1) + ',' + (by + ry * s).toFixed(1);
+      }
+      var shape = 'M' + pt(0,0) +
+        ' C' + pt(7,-9) + ' ' + pt(22,-11) + ' ' + pt(36,0) +
+        ' C' + pt(22,11) + ' ' + pt(7,9) + ' ' + pt(0,0) + ' Z';
+      var vein = 'M' + pt(2,0) + ' L' + pt(32,0);
+      return {shape: shape, vein: vein};
+    }
+
+    function addLeaf(opts){
+      var d = leafPaths(opts.x, opts.y, opts.ang, opts.scale);
+      var wrap = document.createElementNS(svgns, 'g');
+      wrap.setAttribute('class', 'leaf ' + (opts.sway ? 'leaf-sway' : 'leaf-grow'));
+      wrap.style.transformOrigin = opts.x + 'px ' + opts.y + 'px';
+      if(opts.sway){
+        wrap.style.animationDuration = (opts.dur || 5) + 's';
+        wrap.style.animationDelay = (opts.delay || 0) + 's';
+      } else {
+        wrap.style.animationDelay = (opts.delay || 0) + 's';
+      }
+      var shape = document.createElementNS(svgns, 'path');
+      shape.setAttribute('d', d.shape);
+      shape.setAttribute('fill', '#5FA88C');
+      shape.setAttribute('opacity', opts.opacity != null ? opts.opacity : 0.55);
+      var vein = document.createElementNS(svgns, 'path');
+      vein.setAttribute('d', d.vein);
+      vein.setAttribute('fill', 'none');
+      vein.setAttribute('stroke', 'rgba(16,24,38,.35)');
+      vein.setAttribute('stroke-width', '1');
+      wrap.appendChild(shape); wrap.appendChild(vein);
+      g.appendChild(wrap);
+    }
+
+    /* foglie che sbocciano lungo il ramo — punti e tangenti calcolati sulla curva #stem */
+    [
+      {x:692.9,y:331.0,ang:-149.5,scale:1.05,delay:.5},
+      {x:711.0,y:284.2,ang:4.5,scale:.95,delay:.75},
+      {x:732.3,y:229.6,ang:-151.6,scale:1.25,delay:1.05},
+      {x:726.0,y:175.9,ang:-17.3,scale:.95,delay:1.3},
+      {x:741.2,y:137.9,ang:-124.0,scale:1.1,delay:1.55},
+      {x:763.1,y:101.5,ang:1.5,scale:.9,delay:1.8},
+      {x:772.3,y:69.6,ang:-151.8,scale:1.15,delay:2.05},
+      {x:768.0,y:42.0,ang:-44.9,scale:.85,delay:2.3}
+    ].forEach(function(o){ o.opacity = .9; addLeaf(o); });
+
+   
+
+    if(reduce){
+      g.querySelectorAll('.leaf').forEach(function(l){ l.style.animation = 'none'; l.style.opacity = '1'; l.style.transform = 'none'; });
+    }
+
+    if(stem.getTotalLength){
+      var len = stem.getTotalLength();
+      if(!reduce){
+        stem.style.strokeDasharray = len;
+        stem.style.strokeDashoffset = len;
+        stem.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(.5,0,.1,1)';
+        requestAnimationFrame(function(){ stem.style.strokeDashoffset = 0; });
+      }
+    }
+  })();
+})();
+</script>
+</body>
+</html>
