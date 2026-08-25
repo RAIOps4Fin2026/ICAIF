@@ -291,6 +291,7 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 12px)}
   font-family:var(--f-display);font-weight:600;font-size:2rem;color:var(--ink);
   background:linear-gradient(140deg,var(--accent),#9FD6BC);
 }
+.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
 .speaker h3{font-family:var(--f-display);font-weight:600;font-size:1.08rem;letter-spacing:-.01em}
 .speaker p{color:var(--muted-dark);font-size:.86rem;margin-top:.35rem}
 
@@ -489,12 +490,12 @@ max-width:280px;
 <div class="mnav" id="mnav">
   <a href="#about">About</a>
   <a href="#topics">Topics</a>
+  <a href="#cfp">Call for Papers</a>
   <a href="#speakers">Speakers</a>
   <a href="#schedule">Schedule</a>
   <a href="#organizers">Organizers</a>
   <a href="#papers">Papers</a>
   <a href="#committee">Committee</a>
-  <a href="#cfp">Call for Papers</a>
 </div>
 
 <!-- ================= HERO ================= -->
@@ -648,7 +649,9 @@ max-width:280px;
       style="cursor:pointer;">
       <span class="speaker-label">Keynote Speaker</span>
       <div class="speaker featured">
-        <div class="avatar" data-initials>EP</div>
+        <div class="avatar">
+          <img src="images/e_panai.jpeg" alt="Enrico Panai">
+        </div>
           <div class="speaker-content">
             <h3>Enrico Panai</h3>
             <p class="speaker-role">
@@ -667,28 +670,36 @@ max-width:280px;
           <div class="speaker" 
             onclick="window.open('https://www.linkedin.com/in/andrea-claudio-cosentini-a479232/','_blank')"
             style="cursor:pointer;">
-            <div class="avatar" data-initials>AC</div>
+            <div class="avatar">
+            <img src="images/a_cosentini.jpeg" alt="Andrea Claudio Cosentini">
+            </div>
             <h3>Andrea Claudio Cosentini</h3>
             <p>Head of Data Science &amp; Responsible AI, Intesa Sanpaolo, Italy.</p>
           </div>
           <div class="speaker"
             onclick="window.open('https://www.linkedin.com/in/nicasio-muscia-645885/','_blank')"
             style="cursor:pointer;">
-            <div class="avatar" data-initials>NM</div>
+            <div class="avatar">
+              <img src="images/n_muscia.jpeg" alt="Nicasio Muscia">
+            </div>
             <h3>Nicasio Muscia</h3>
             <p>Managing Director, Responsible AI Lead for Italy &amp; Greece, Accenture, Italy.</p>
           </div>
           <div class="speaker"
             onclick="window.open('https://www.linkedin.com/in/marco-siciliano-f/','_blank')"
             style="cursor:pointer;">
-            <div class="avatar" data-initials>MS</div>
+            <div class="avatar">
+              <img src="images/m_siciliano.jpeg" alt="Marco Siciliano">
+            </div>
             <h3>Marco Siciliano</h3>
             <p>Country Chief Data Officer, Generali, Italy.</p>
           </div>
           <div class="speaker"
             onclick="window.open('https://www.linkedin.com/in/laetitiaeriksson/','_blank')"
             style="cursor:pointer;">
-            <div class="avatar" data-initials>LC</div>
+            <div class="avatar">
+              <img src="images/l_cailleteau.jpeg" alt="Laetitia Cailleteau">
+            </div>
             <h3>Laetitia Cailleteau</h3>
             <p>Managing Director, EMEA Lead for Responsible AI, Accenture, Italy.</p>
           </div>
@@ -696,7 +707,9 @@ max-width:280px;
           <div class="speaker"
             onclick="window.open('https://www.linkedin.com/in/mercorio/','_blank')"
             style="cursor:pointer;">
-            <div class="avatar" data-initials>FM</div>
+            <div class="avatar">
+              <img src="images/f_mercorio.png" alt="Fabio Mercorio">
+            </div>
             <h3>Fabio Mercorio</h3>
             <p>Full Professor of Data Science and AI, University of Milano – Bicocca, Italy.</p>
           </div>
@@ -765,8 +778,7 @@ max-width:280px;
         onclick="window.open('https://www.linkedin.com/in/vita-catapano-429a94147/','_blank')"
         style="cursor:pointer;">
         <div class="mono-av">
-          VC
-         <!--  <img src="images/v_catapano.jpeg" alt="Vita Catapano"> -->
+          <img src="images/v_catapano.jpeg" alt="Vita Catapano"> 
         </div>
         <div>
           <b>Vita Catapano</b>
@@ -778,7 +790,7 @@ max-width:280px;
         onclick="window.open('https://www.linkedin.com/in/francesca-naretto-710bb31a2/','_blank')"
         style="cursor:pointer;">
         <div class="mono-av">
-          <img src="images/f_naretto.jpeg" alt="Francesca Naretto">
+          <img src="images/f_naretto.png" alt="Francesca Naretto">
         </div>
         <div>
           <b>Francesca Naretto</b>
@@ -869,7 +881,7 @@ max-width:280px;
       <a target="_blank" rel="noopener noreferrer" class="sponsor"> 
         <div class="sponsor-name">Responsible AI @Accenture</div>
         <div class="sponsor-desc">
-          
+          Supporting clients in designing scalable AI Governance and embedding technical controls and metrics across their AI Systems.
         </div>
       </a>
 
