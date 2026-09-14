@@ -282,8 +282,11 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 12px)}
     text-transform: uppercase;
     font-weight: 600;
     }
-.speaker-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.speaker-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
 .speaker{background:var(--ink);padding:1.75rem 1.5rem;transition:background .2s ease}
+.speaker-grid .speaker{display:flex;flex-direction:column;align-items:center;text-align:center}
+@media (max-width:720px){.speaker-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.speaker-grid{grid-template-columns:repeat(1,1fr)}}
 .speaker:hover{background:var(--ink-2)}
 .avatar{
   width:128px;height:128px;border-radius:50%;
@@ -350,13 +353,15 @@ background:var(--paper-2);
 }
 .sponsor-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(3,1fr);
 gap:1px;
 background:var(--line);
 border:1px solid var(--line);
 border-radius:3px;
 overflow:hidden;
 }
+@media (max-width:720px){.sponsor-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.sponsor-grid{grid-template-columns:repeat(1,1fr)}}
 .sponsor{
 background:var(--paper);
 padding:1.8rem;
@@ -597,7 +602,7 @@ max-width:280px;
 
     <div class="cfp-grid">
       <div>
-        <span class="utc">Important dates — all deadlines 11:59 PM Pacific Time</span>
+        <span class="utc">Important dates — all deadlines 11:59 PM Anywhere on Earth (AoE)</span>
         <div class="dates">
           <div class="date-row"><div class="lbl">Submission deadline</div><div class="day">October 1, 2026</div></div>
           <div class="date-row"><div class="lbl">Author notification</div><div class="day">October 15, 2026</div></div>
