@@ -329,6 +329,24 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 12px)}
 .slot .who{color:var(--ink-soft);font-size:.9rem;margin-top:.25rem}
 .slot.break h3{color:var(--ink-soft);font-weight:500}
 .slot.break::before{background:var(--line);border-color:var(--line)}
+.slot .time span{display:block;color:var(--ink-soft);opacity:.7}
+.slot .dur{
+  font-family:var(--f-mono);font-size:.68rem;font-weight:400;letter-spacing:.03em;color:var(--accent-2);
+  margin-left:.6rem;white-space:nowrap;
+}
+
+.papers{
+  list-style:none;margin-top:1rem;max-width:860px;display:grid;gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;
+}
+.papers li{display:grid;grid-template-columns:6.4rem 1fr;gap:1rem;padding:.95rem 1.15rem;background:var(--paper)}
+.papers .p-time{font-family:var(--f-mono);font-size:.7rem;color:var(--accent-2);padding-top:.2rem;white-space:nowrap}
+.papers b{display:block;font-weight:500;font-size:.93rem;line-height:1.45;color:var(--ink)}
+.papers .au{display:block;font-size:.84rem;color:var(--ink-soft);margin-top:.2rem}
+@media (max-width:620px){
+  .papers li{grid-template-columns:1fr;gap:.3rem}
+  .papers .p-time{padding-top:0}
+}
 
 /* ---------- Organizers ---------- */
 .org-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
@@ -728,13 +746,39 @@ max-width:280px;
     </div>
     <div class="sched">
       
-      <div class="slot"><div class="time">08:30</div><h3>Welcome &amp; Opening Remarks</h3></div>
-      <div class="slot"><div class="time">08:40</div><h3>Paper Session #1</h3><div class="who">TBD</div></div>
-      <div class="slot"><div class="time">10:00</div><h3>Keynote Talk</h3><div class="who">Enrico Panai</div></div>
-      <div class="slot break"><div class="time">10:30</div><h3>Coffee Break</h3></div>
-      <div class="slot"><div class="time">11:00</div><h3>Paper Session #2</h3><div class="who">TBD</div></div>
-      <div class="slot"><div class="time">11:40</div><h3>Panel Discussion</h3><div class="who">Panelists</div></div>
-      <div class="slot"><div class="time">12:25</div><h3>Closing Remarks</h3></div>
+      <div class="slot"><div class="time">08:30<span>08:35</span></div><h3>Opening Remarks<span class="dur">5 min</span></h3></div>
+
+      <div class="slot">
+        <div class="time">08:35<span>09:50</span></div>
+        <h3>Paper Session I<span class="dur">75 min</span></h3>
+        <div class="who">5 papers &middot; 12 min + 2–3 min Q&A each</div>
+        <ol class="papers">
+          <li><span class="p-time">08:35–08:50</span><div><b>Auditable FRTB Capital Explanations: A Tool Contract for Financial AI Agents</b><span class="au">Yuhe Sui</span></div></li>
+          <li><span class="p-time">08:50–09:05</span><div><b>Digitalizing AI Governance in Financial Institutions: From Document-Centric Policy to Centralized Lifecycle Management</b><span class="au">Federica Screti</span></div></li>
+          <li><span class="p-time">09:05–09:20</span><div><b>Measuring Sensitive Attribute Biases in LLMs: Credit Risk Assessment as an Empirical Benchmark</b><span class="au">Federico Ricciuti, Diana Komis</span></div></li>
+          <li><span class="p-time">09:20–09:35</span><div><b>Is It Still the Same Model? Economic Identity Fingerprints for Production Financial AI</b><span class="au">Chamyl Saadi, Eric Benhamou</span></div></li>
+          <li><span class="p-time">09:35–09:50</span><div><b>Enhancing Financial Crisis Prediction Using Generative Adversarial Networks and Explainable Artificial Intelligence</b><span class="au">Salvatore Rinzivillo</span></div></li>
+        </ol>
+      </div>
+
+      <div class="slot"><div class="time">09:50<span>10:30</span></div><h3>Keynote Speaker<span class="dur">40 min</span></h3><div class="who">Enrico Panai</div></div>
+      <div class="slot break"><div class="time">10:30<span>11:00</span></div><h3>Coffee Break<span class="dur">30 min</span></h3></div>
+
+      <div class="slot">
+        <div class="time">11:00<span>12:15</span></div>
+        <h3>Paper Session II<span class="dur">75 min</span></h3>
+        <div class="who">5 papers &middot; 12 min + 2–3 min Q&A each</div>
+        <ol class="papers">
+          <li><span class="p-time">11:00–11:15</span><div><b>Governing LLM Agents in Financial Compliance: Controls That Survive a Change of Model</b><span class="au">Sahil Rangwala</span></div></li>
+          <li><span class="p-time">11:15–11:30</span><div><b>When Synthesis Silences Risk: Auditable Sign-Off in Financial Agent Committees</b><span class="au">Jeffrey Zhou</span></div></li>
+          <li><span class="p-time">11:30–11:45</span><div><b>FiPARM: Financial Prompt Actionable Risk Management. A Governance Taxonomy for Prompt-Level Risk Classification in Financial Services</b><span class="au">Owen O'Neill</span></div></li>
+          <li><span class="p-time">11:45–12:00</span><div><b>AEGIS: An Auditable Evidence-Governed Interface for Cost-Aware AI Workflow Selection in Finance</b><span class="au">Xiaozhen Wang</span></div></li>
+          <li><span class="p-time">12:00–12:15</span><div><b>Unequal Denial, Similar Recourse Cost: Pricing the Closure of the Mortgage Denial Gap</b><span class="au">Jonathan Chang</span></div></li>
+        </ol>
+      </div>
+
+      <div class="slot"><div class="time">12:15<span>12:55</span></div><h3>Panel Discussion<span class="dur">40 min</span></h3><div class="who">Panelists</div></div>
+      <div class="slot"><div class="time">12:55<span>13:00</span></div><h3>Closing Remarks<span class="dur">5 min</span></h3></div>
     </div>
   </div>
 </section>
