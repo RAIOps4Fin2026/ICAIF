@@ -727,6 +727,20 @@
       font-weight: 600;
     }
 
+    .chair-badge {
+      display: inline-block;
+      font-family: var(--f-mono);
+      font-size: .62rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: var(--ink);
+      padding: .18rem .5rem;
+      border-radius: 2px;
+      margin-bottom: .6rem;
+      font-weight: 500;
+    }
+
     .speaker-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1538,6 +1552,15 @@
       <div class="panelists-section">
         <h3 class="panelists-title">Panelists</h3>
         <div class="speaker-grid">
+          <div class="speaker" onclick="window.open('https://www.linkedin.com/in/oreste-pollicino-b95a5319','_blank')"
+            style="cursor:pointer;">
+            <div class="avatar">
+              <img src="images/o_pollicino.jpeg" alt="Oreste Pollicino">
+            </div>
+            <span class="chair-badge">Panel Chair</span>
+            <h3>Oreste Pollicino</h3>
+            <p>Full Professor of Constitutional Law and AI Regulation, Bocconi University, Italy.</p>
+          </div>
           <div class="speaker"
             onclick="window.open('https://www.linkedin.com/in/andrea-claudio-cosentini-a479232/','_blank')"
             style="cursor:pointer;">
