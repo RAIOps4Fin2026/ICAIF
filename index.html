@@ -214,11 +214,9 @@
       width: 100%
     }
 
-    /*.brand{display:flex;flex-direction:column;line-height:1.15;color:var(--on-dark)}*/
     .brand {
       display: flex;
       flex-direction: row;
-      /* logo e testo affiancati */
       align-items: center;
       color: var(--on-dark);
       gap: 8px;
@@ -227,7 +225,6 @@
     .brand-text {
       display: flex;
       flex-direction: column;
-      /* mantiene il comportamento originale del testo */
       line-height: 1.15;
     }
 
@@ -235,7 +232,6 @@
       height: 46px;
       width: auto;
       flex-shrink: 0;
-      /* evita che il logo si schiacci se lo spazio è poco */
     }
 
     .brand b {
@@ -706,9 +702,90 @@
       color: var(--muted-dark)
     }
 
+    /* Keynote: speaker card + talk title side by side */
     .keynote-speaker {
-      max-width: 500px;
       margin-bottom: 4rem;
+    }
+
+    .keynote-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 300px) 1fr;
+      gap: 1px;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .keynote-layout .speaker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .keynote-talk {
+      background: var(--ink-2);
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .keynote-kicker {
+      font-family: var(--f-mono);
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: .9rem;
+    }
+
+    .keynote-title {
+      font-family: var(--f-display);
+      font-weight: 600;
+      font-size: clamp(1.5rem, 3.2vw, 2rem);
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      color: var(--on-dark)
+    }
+
+    .keynote-subtitle {
+      margin-top: .45rem;
+      font-size: 1rem;
+      line-height: 1.45;
+      color: var(--muted-dark)
+    }
+
+    .keynote-by {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, .12);
+      font-size: .92rem;
+      color: var(--muted-dark);
+    }
+
+    .keynote-by b {
+      color: var(--on-dark);
+      font-weight: 600;
+    }
+
+    @media (max-width: 720px) {
+      .keynote-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .slot .talk {
+      margin-top: .3rem;
+      font-size: .95rem;
+      line-height: 1.45;
+      color: var(--ink)
+    }
+
+    .slot .talk b {
+      font-weight: 600
     }
 
     .speaker-label {
@@ -1063,7 +1140,6 @@
     }
 
     /* ---------- Sponsors ---------- */
-
     .sponsors-sec {
       background: var(--paper-2);
     }
@@ -1122,33 +1198,6 @@
       max-width: 280px;
     }
 
-
-    /* 
-.sponsor-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;
-  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;
-}
-.sponsor{
-  background:var(--paper);padding:2rem 1.5rem;display:grid;place-items:center;min-height:110px;
-  transition:background .2s ease;
-}
-.sponsor:hover{background:#fff}
-.sponsor img{
-  max-width:100%;max-height:44px;filter:grayscale(1);opacity:.65;
-  transition:filter .2s ease,opacity .2s ease;
-}
-.sponsor:hover img{filter:grayscale(0);opacity:1}
-.sponsor {
-  display: flex;
-  justify-content: center; /* centra orizzontalmente */
-    /* align-items: center; /* centra verticalmente */
-    /* text-align: center; /* centra il testo su più righe */
-    /* font-size: 1.2rem;
-  font-weight: 700; /* testo più spesso */
-    /* padding: 1rem;
-  color: var(--ink-soft)
-  }
-*/
     /* ---------- About ---------- */
     .about-sec {
       background: var(--paper-2)
@@ -1346,16 +1395,9 @@
 
   <!-- ================= HERO ================= -->
   <header class="hero" id="top">
-    <!-- Firma visiva: un ramo che cresce con fogline che sbocciano, e foglie che ondeggiano
-       nello sfondo — sustainability, crescita responsabile. -->
     <svg class="hero-svg" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-
-
-      <!-- ramo principale: si disegna alla lettura della pagina -->
       <path id="stem" fill="none" stroke="#2E6650" stroke-width="2" stroke-linecap="round"
         d="M700,368 C668,300 752,268 728,202 C710,140 792,108 768,42" />
-
-      <!-- foglie che sbocciano lungo il ramo + foglie ambientali che ondeggiano -->
       <g id="foliage"></g>
     </svg>
 
@@ -1530,24 +1572,34 @@
       </div>
 
       <!-- KEYNOTE SPEAKER -->
-      <div class="keynote-speaker" onclick="window.open('https://www.linkedin.com/in/enricopanai/','_blank')"
-        style="cursor:pointer;">
-        <span class="speaker-label">Keynote Speaker</span>
-        <div class="speaker featured">
-          <div class="avatar">
-            <img src="images/e_panai.jpeg" alt="Enrico Panai">
+      <div class="keynote-speaker">
+        <span class="speaker-label">Keynote</span>
+        <div class="keynote-layout">
+          <div class="speaker featured" onclick="window.open('https://www.linkedin.com/in/enricopanai/','_blank')"
+            style="cursor:pointer;">
+            <div class="avatar">
+              <img src="images/e_panai.jpeg" alt="Enrico Panai">
+            </div>
+            <div class="speaker-content">
+              <h3>Enrico Panai</h3>
+              <p class="speaker-role">
+                Professor at Catholic University of the Sacred Heart, Italy.
+              </p>
+              <p>
+                Artificial Intelligence ethicist and president of the Association of AI Ethicists.
+              </p>
+            </div>
           </div>
-          <div class="speaker-content">
-            <h3>Enrico Panai</h3>
-            <p class="speaker-role">
-              Professor at Catholic University of the Sacred Heart, Italy.
-            </p>
-            <p>
-              Artificial Intelligence ethicist and president of the Association of AI Ethicists.
-            </p>
+
+          <div class="keynote-talk">
+            <span class="keynote-kicker">Keynote talk</span>
+            <h3 class="keynote-title">Riding the wind</h3>
+            <p class="keynote-subtitle">How AI Ethics helps to govern when the going gets tough</p>
+            <p class="keynote-by">by <b>Enrico Panai</b></p>
           </div>
         </div>
       </div>
+
       <!-- PANELISTS -->
       <div class="panelists-section">
         <h3 class="panelists-title">Panelists</h3>
@@ -1646,6 +1698,7 @@
         <div class="slot">
           <div class="time">09:50<span>10:30</span></div>
           <h3>Keynote Speaker<span class="dur">40 min</span></h3>
+          <div class="talk"><b>Riding the wind</b> — How AI Ethics helps to govern when the going gets tough</div>
           <div class="who">Enrico Panai</div>
         </div>
         <div class="slot break">
@@ -2010,8 +2063,6 @@
         a.addEventListener('click', function () { mnav.classList.remove('open'); toggle.setAttribute('aria-expanded', false); });
       });
 
-      /* ---- Speaker avatars: initials fallback already in HTML text ---- */
-
       /* ---- Reveal on scroll ---- */
       if (!reduce && 'IntersectionObserver' in window) {
         document.querySelectorAll('.section .wrap > *').forEach(function (el) { el.classList.add('reveal'); });
@@ -2082,7 +2133,6 @@
           g.appendChild(wrap);
         }
 
-        /* foglie che sbocciano lungo il ramo — punti e tangenti calcolati sulla curva #stem */
         [
           { x: 692.9, y: 331.0, ang: -149.5, scale: 1.05, delay: .5 },
           { x: 711.0, y: 284.2, ang: 4.5, scale: .95, delay: .75 },
@@ -2093,8 +2143,6 @@
           { x: 772.3, y: 69.6, ang: -151.8, scale: 1.15, delay: 2.05 },
           { x: 768.0, y: 42.0, ang: -44.9, scale: .85, delay: 2.3 }
         ].forEach(function (o) { o.opacity = .9; addLeaf(o); });
-
-
 
         if (reduce) {
           g.querySelectorAll('.leaf').forEach(function (l) { l.style.animation = 'none'; l.style.opacity = '1'; l.style.transform = 'none'; });
